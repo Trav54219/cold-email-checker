@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cold email checker: spam words, AI tells, broken spintax, and Smartlead / Instantly / PlusVibe conversion</title>
+  <meta name="description" content="Paste a cold email. Get spam phrases, AI-sounding lines, broken merge fields and spintax, length, links and reading grade, plus random variant previews and one-click spintax conversion between Smartlead, Instantly and PlusVibe.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wide">
+    <header>
+      <h1>Cold email checker</h1>
+      <p class="lede">Paste the email. It checks spam phrases, lines that sound like AI, broken merge fields and spintax, length, links and reading level as you type. It also previews random variants and converts spintax between Smartlead, Instantly and PlusVibe.</p>
+    </header>
+
+    <div class="grid">
+      <section class="editor">
+        <div class="row">
+          <div class="field">
+            <label for="dialect">Written for</label>
+            <select id="dialect">
+              <option value="auto">Detect automatically</option>
+              <option value="smartlead">Smartlead: {Hi|Hey} {{first_name}}</option>
+              <option value="instantly">Instantly: {{RANDOM | Hi | Hey}} {{firstName}}</option>
+              <option value="plusvibe">PlusVibe: {{random|Hi|Hey}} {{first_name}}</option>
+            </select>
+          </div>
+          <button type="button" id="example" class="ghost">Load an example</button>
+        </div>
+        <label for="subject">Subject</label>
+        <input id="subject" spellcheck="true" autocomplete="off" placeholder="{{first_name}}, roofing crews">
+        <label for="body">Body</label>
+        <textarea id="body" rows="16" spellcheck="true" placeholder="{Hi|Hey} {{first_name}},&#10;&#10;Saw {{company_name}} is hiring two estimators..."></textarea>
+        <p class="detected" id="detected"></p>
+      </section>
+
+      <section class="report">
+        <div class="score" id="score"></div>
+        <ul class="findings" id="findings"></ul>
+      </section>
+    </div>
+
+    <section class="block" id="preview-block">
+      <div class="block-head">
+        <h2>What recipients will see</h2>
+        <span class="muted" id="combos"></span>
+        <button type="button" id="shuffle" class="ghost">Shuffle</button>
+      </div>
+      <p class="muted small">Sample data: Sarah Lopez at Acme Roofing. Missing fields show their fallback or [field_name].</p>
+      <div id="variants" class="variants"></div>
+    </section>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>Convert the spintax</h2>
+        <div class="seg" id="targets">
+          <button type="button" data-to="smartlead">To Smartlead</button>
+          <button type="button" data-to="instantly">To Instantly</button>
+          <button type="button" data-to="plusvibe">To PlusVibe</button>
+        </div>
+      </div>
+      <div id="convert-out" hidden>
+        <label>Subject</label>
+        <div class="record"><code id="conv-subject"></code><button type="button" class="copy" data-copy="conv-subject">Copy</button></div>
+        <label>Body</label>
+        <div class="record tall"><pre id="conv-body"></pre><button type="button" class="copy" data-copy="conv-body">Copy</button></div>
+        <ul class="conv-warn" id="conv-warn"></ul>
+      </div>
+    </section>
+
+    <section class="notes">
+      <h2>What it checks</h2>
+      <dl>
+        <dt>Syntax</dt><dd>Unclosed <code>{{</code> or <code>{</code>, a stray brace, spintax with one option, single braces in Instantly or PlusVibe copy (they print as-is), empty variables, and <code>[First Name]</code> placeholders left in.</dd>
+        <dt>Deliverability</dt><dd>Spam phrases, with the subject held to a stricter standard. Also links (more than one fails), images, attachments, Re: or Fwd: on a first email, and copy with no spintax.</dd>
+        <dt>Voice</dt><dd>Openers that delay the point ("I hope this finds you well", "I wanted to reach out"), "It's not X, it's Y", "Here's the thing", em dashes, corporate words, and more "I" than "you".</dd>
+        <dt>Shape</dt><dd>Word count across every spintax variant (50 to 100 is the target), a question to reply to, paragraph length, reading grade, and exclamation marks.</dd>
+        <dt>Conversion</dt><dd>Smartlead <code>{a|b}</code>, Instantly <code>{{RANDOM | a | b}}</code> and PlusVibe <code>{{random|a|b}}</code>, with variable names, fallbacks, custom fields and sender tags mapped. Anything that doesn't carry over is listed for you to fix, not dropped silently.</dd>
+      </dl>
+      <p class="privacy">Runs in your browser. Nothing you paste is sent anywhere.</p>
+    </section>
+
+    <footer>
+      Built by <a href="https://trav54219.github.io/gtm-engineering-portfolio/">Travis Heurtelou</a>, GTM engineer · <a href="https://github.com/Trav54219/cold-email-checker">Source on GitHub</a> · Also: <a href="https://trav54219.github.io/domain-health/">Domain health</a>, <a href="https://trav54219.github.io/lead-name-cleaner/">Lead name cleaner</a> · MIT
+    </footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
